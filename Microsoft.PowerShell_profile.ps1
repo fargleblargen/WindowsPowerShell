@@ -1,22 +1,4 @@
-﻿Write-Host " Welcome to the Exchange Management Shell " -foregroundcolor black -backgroundcolor green
-Write-Host ""
-$server = Read-Host "Enter the Exchange server to connect to"
-Write-Host ""
-$user = Read-Host "Enter your username"
-$pass = Read-Host "Enter your password" -AsSecureString
-$credential = New-Object System.Management.Automation.PSCredential ` -ArgumentList $user,$pass
-$so = New-PSSessionOption -SkipCNCheck -SkipCACheck -SkipRevocationCheck
-$Exchange2013 = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri “http://$($server)/powershell” -Credential $credential -SessionOption $so
-Import-PSSession -DisableNameChecking -Session $Exchange2013
-Set-ADServerSettings -ViewEntireForest $true
-#Import-Module ActiveDirectory -DisableNameChecking
-#Import-Module C:\Scripts\functions.psm1
-Import-Module Functions
-#Import-Module PSGet
-Import-Module PSReadline
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+﻿# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Rikard Ronnkvist / snowland.se
 # Multicolored prompt with marker for windows started as Admin and marker for providers outside filesystem
 # Examples
@@ -57,3 +39,6 @@ Write-Host "\" -nonewline -foregroundcolor Gray
 Write-Host "`b>" -nonewline -foregroundcolor Gray
 return " "
 }
+
+Menu
+
