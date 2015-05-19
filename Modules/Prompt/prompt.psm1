@@ -1,0 +1,48 @@
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Rikard Ronnkvist / snowland.se
+# Multicolored prompt with marker for windows started as Admin and marker for providers outside filesystem
+# Examples
+# C:\Windows\System32>
+# [Admin] C:\Windows\System32>
+# [Registry] HKLM:\SOFTWARE\Microsoft\Windows>
+# [Admin] [Registry] HKLM:\SOFTWARE\Microsoft\Windows>
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+function prompt
+{
+# Theme colors
+#$cdelim = [ConsoleColor]::DarkCyan 
+#$chost = [ConsoleColor]::Green 
+#$cloc = [ConsoleColor]::Cyan
+# New nice WindowTitle
+$Host.UI.RawUI.WindowTitle = "PowerShell v" + (get-host).Version.Major + "." + (get-host).Version.Minor + " (" + $pwd.Provider.Name + ") " + $pwd.Path
+# Admin ?
+if( (
+New-Object Security.Principal.WindowsPrincipal (
+[Security.Principal.WindowsIdentity]::GetCurrent())
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+{
+# Admin-mark in WindowTitle
+$Host.UI.RawUI.WindowTitle = "[Admin] " + $Host.UI.RawUI.WindowTitle
+# Admin-mark on prompt
+Write-Host "[" -nonewline -foregroundcolor DarkGray
+Write-Host "A" -nonewline -foregroundcolor Red
+Write-Host "] " -nonewline -foregroundcolor DarkGray
+}
+# Show hostname
+#Write-Host $ENV:COMPUTERNAME -n -f	$chost
+#Write-Host " " -nonewline
+# Show providername if you are outside FileSystem
+if ($pwd.Provider.Name -ne "FileSystem") {
+Write-Host "[" -nonewline -foregroundcolor DarkGray
+Write-Host $pwd.Provider.Name -nonewline -foregroundcolor Gray
+Write-Host "] " -nonewline -foregroundcolor DarkGray
+}
+# Split path and write \ in a gray
+$pwd.Path.Split("\") | foreach {
+Write-Host $_ -nonewline -foregroundcolor White
+Write-Host "\" -nonewline -foregroundcolor Gray
+}
+# Backspace last \ and write >
+Write-Host "`b>" -nonewline -foregroundcolor Gray
+return " "
+}
