@@ -7,6 +7,14 @@ Write-Host ""
 Write-Host "Press any key to continue ..." -foregroundcolor Cyan
 $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp,AllowCtrlC")
 Write-Host ""
+	
+Write-Host "Setting Global Variables ..." -foregroundcolor DarkGray
+#Set global variables
+$Global:SplitPath = Split-Path $profile
+Set-Variable -Name SessionStatus -Value 1 -Scope Global
+Set-Variable -Name ResultPath -Value "\\Aavcmbfil01\Users$\WTSMITH\My Documents\WindowsPowerShell\Results\" -Scope Global
+Set-Variable -Name ArrayPath -Value "\\Aavcmbfil01\Users$\WTSMITH\My Documents\WindowsPowerShell\Arrays\" -Scope Global
+#//
 #Import Custom Functions
 Write-Host "Importing Custom Functions ..." -foregroundcolor DarkGray
 Import-Module Functions
