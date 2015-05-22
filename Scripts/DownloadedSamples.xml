@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DownloadedSamples>
+  <ScriptSample Name="Exchange-2013-Prerequisites-3f8651b9" LastUpdated="4/24/2015" Link="https://gallery.technet.microsoft.com/Exchange-2013-Prerequisites-3f8651b9" Rating="4.8" Raters="5" Downloads="4297" Title="Exchange 2013 - Prerequisites install &amp; configuration for Windows Server 2012/R2" Category="Exchange" SubCategory="Exchange 2013" Tags="Powershell Script;  Exchange 2013;  Windows Server 2012;  " Author="Benoit HAMET - MVP" Summary="This PowerShell script download, install and configure all prerequisites for Exchange 2013 on Windows Server 2012 and Windows Server 2012 R2 (if using Exchange 2013 SP1 Binaries)It has been updated to include the new Exchange 2013 Edge Role (if using Exchange 2013 SP1)The script " IsAllDownloaded="true" IsAddedToFavorite="true">
+    <SamplePackages>
+      <SamplePackage LastUpdated="5/22/2015" DownloadLink="https://gallery.technet.microsoft.com/Exchange-2013-Prerequisites-3f8651b9/file/70079/4/Exchange2013PreReq_Windows2012-2012R2.ps1" FileName="Exchange2013PreReq_Windows2012-2012R2.ps1" FileNameWithoutExtension="Exchange2013PreReq_Windows2012-2012R2" LocalPath="\\Aavcmbfil01\Users$\WTSMITH\My Documents\WindowsPowerShell\Scripts\Exchange-2013-Prerequisites-3f8651b9\Exchange2013PreReq_Windows2012-2012R2" />
+    </SamplePackages>
+  </ScriptSample>
+</DownloadedSamples>

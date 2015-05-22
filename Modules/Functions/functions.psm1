@@ -60,7 +60,7 @@ Function Start-PowerShell
     Write-Host " No Remote Sessions detected." -foregroundcolor Cyan
     Write-Host " Type 'Menu' for custom functions." -foregroundcolor Cyan
     Write-Host ""
-    } 
+    }
   Else {
     Get-PSSession | Remove-PSSession
     Write-Host ""
@@ -68,7 +68,7 @@ Function Start-PowerShell
     Write-Host " Type 'Menu' for custom functions." -foregroundcolor Cyan
     Write-Host ""
     }
-  
+
 }
 #//end
 
@@ -93,7 +93,7 @@ Start-Transcript -Append -Force -NoClobber
 #//start: Open Windows explorer
 Function Explore
 {
-    ii . 
+    ii .
 }
 #//end
 
@@ -103,20 +103,30 @@ Function Get-Uptime
   $file = New-Object System.IO.StreamReader -Arg "\\Aavcmbfil01\Users$\WTSMITH\My Documents\WindowsPowerShell\Arrays\Get-Uptime.txt"
   while ($line = $file.ReadLine()) {
   #// Action to be taken for each line entry begins here
-  if ( Test-Connection -ComputerName $line -Count 1 -ErrorAction SilentlyContinue )  
-    { 
-      $wmi = gwmi Win32_OperatingSystem -computer $line 
-       $LBTime = $wmi.ConvertToDateTime($wmi.Lastbootuptime) 
-       [TimeSpan]$uptime = New-TimeSpan $LBTime $(get-date) 
-       Write-output "$line Uptime is  $($uptime.days) Days $($uptime.hours) Hours $($uptime.minutes) Minutes $($uptime.seconds) Seconds" 
-    } 
+  if ( Test-Connection -ComputerName $line -Count 1 -ErrorAction SilentlyContinue )
+    {
+      $wmi = gwmi Win32_OperatingSystem -computer $line
+       $LBTime = $wmi.ConvertToDateTime($wmi.Lastbootuptime)
+       [TimeSpan]$uptime = New-TimeSpan $LBTime $(get-date)
+       Write-output "$line Uptime is  $($uptime.days) Days $($uptime.hours) Hours $($uptime.minutes) Minutes $($uptime.seconds) Seconds"
+    }
   else
-    { 
-      Write-output "$line is not pinging" 
+    {
+      Write-output "$line is not pinging"
     }
   #// end action
 }
 $file.close()
+}
+#//end
+
+#//start: run Exchange Server health Send-Transcript
+Function Send-HealthCheck
+{
+  <# $ScriptPath = Split-Path $MyInvocation.InvocationName
+  & "$ScriptPath\MyScript1.ps1"#>
+  
+  & "C:\Git\PowerShell\Get-ExchangeEnvironmentReport.ps1"
 }
 #//end
 
@@ -134,7 +144,7 @@ Function Set-PersonalTags
 
   # hardcode EWS URL to speed things up
   # if we relied on AutoDiscover instead, that would cause an additional call to determine the URL each time this runs
-  $ewsEndpoint = [System.Uri] "https://mneexccas01.dev.droot.dmn/ews/exchange.asmx"
+  $ewsEndpoint = [System.Uri] "https://obitest.onebeacon.com/ews/exchange.asmx"
   ##############################################
   ## CONSTANTS END
   ##############################################
@@ -171,13 +181,13 @@ Function Set-PersonalTags
   $searchFilter = New-Object Microsoft.Exchange.WebServices.Data.SearchFilter+IsEqualTo([Microsoft.Exchange.WebServices.Data.FolderSchema]::FolderClass, "IPF.Note")  # only find mail folders
 
   # define which properties to pull to limit the data returned
-  $propsToLoad = New-Object Microsoft.Exchange.WebServices.Data.PropertySet(   
+  $propsToLoad = New-Object Microsoft.Exchange.WebServices.Data.PropertySet(
     [Microsoft.Exchange.WebServices.Data.FolderSchema]::DisplayName,
-    [Microsoft.Exchange.WebServices.Data.FolderSchema]::FolderClass,
+    #[Microsoft.Exchange.WebServices.Data.FolderSchema]::FolderClass,
     [Microsoft.Exchange.WebServices.Data.FolderSchema]::Id)
 
   # perform the search
-  $folders = $service.FindFolders([Microsoft.Exchange.WebServices.Data.WellKnownFolderName]::MsgFolderRoot, $searchFilter, $folderView)
+  $folders = $service.FindFolders([Microsoft.Exchange.WebServices.Data.WellKnownFolderName]::MsgFolderRoot, <#$searchFilter,#> $folderView)
 
   # walk the folders
   foreach ($folder in $folders.Folders)

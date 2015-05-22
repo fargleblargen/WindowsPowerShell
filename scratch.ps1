@@ -9,7 +9,7 @@
 
   # hardcode EWS URL to speed things up
   # if we relied on AutoDiscover instead, that would cause an additional call to determine the URL each time this runs
-  $ewsEndpoint = [System.Uri] "https://mneexccas01.dev.droot.dmn/ews/exchange.asmx"
+  $ewsEndpoint = [System.Uri] "https://obitest.onebeacon.com/ews/exchange.asmx"
   ##############################################
   ## CONSTANTS END
   ##############################################
@@ -52,7 +52,7 @@
     [Microsoft.Exchange.WebServices.Data.FolderSchema]::Id)
 
   # perform the search
-  $folders = $service.FindFolders([Microsoft.Exchange.WebServices.Data.WellKnownFolderName]::MsgFolderRoot, $searchFilter, $folderView)
+  $folders = $service.FindFolders([Microsoft.Exchange.WebServices.Data.WellKnownFolderName]::MsgFolderRoot, <#$searchFilter#>, $folderView)
 
   # walk the folders
   foreach ($folder in $folders.Folders)
@@ -98,3 +98,11 @@ while ($line = $file.ReadLine()) {
 }
 $file.close()
 #// end
+
+#//start: progress bar example
+$events = get-eventlog -logname system
+$events | foreach-object -begin {clear-host;$i=0;$out=""} `
+-process {if($_.message -like "*bios*") {$out=$out + $_.Message}; $i = $i+1;
+write-progress -activity "Searching Events" -status "Progress:" -percentcomplete ($i/$events.count*100)} `
+-end {$out}
+#//end
